@@ -16,8 +16,8 @@ public class ThreadService {
             try {
                 exe = new Thread(runnable);
                 exe.setDaemon(true);
-                exe.join();
                 exe.start();
+                exe.join();
                 //we can define a flag to shutdown daemon thread that have done
                 flag = Boolean.TRUE;
                 System.out.println("守护线程结束");
@@ -32,12 +32,21 @@ public class ThreadService {
     // shutdown method
     public void shutdown(Long mills){
         //shutdown when daemon thread exec timeout
+        long start = System.currentTimeMillis();
         while (!flag){
-            long start = System.currentTimeMillis();
             //just need to shutdown main thread
-            if(System.currentTimeMillis()-start>mills)
+            if((System.currentTimeMillis()-start)>mills){
+                System.out.println("timeout kill the thread");
                     thread.interrupt();
-            System.out.println("关闭守护线程");
+                    break;
+            }
+
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                System.out.println("main线程被打断");
+                break;
+            }
 
         }
         flag = Boolean.FALSE;

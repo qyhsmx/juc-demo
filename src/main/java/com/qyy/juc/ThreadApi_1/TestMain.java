@@ -10,9 +10,13 @@ public class TestMain{
         service.exec(()->{
             try {
                 Thread.sleep(10*1000);
-            } catch (InterruptedException e) {
+//                while (true){
+//
+//                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
+        service.shutdown(5*1000L);
     }
 }
